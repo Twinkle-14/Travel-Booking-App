@@ -1,0 +1,952 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelEase - Book Your Dream Vacation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2a9d8f;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links li a {
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #2a9d8f;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .auth-buttons button {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login {
+            background: transparent;
+            border: 1px solid #2a9d8f;
+            color: #2a9d8f;
+        }
+
+        .login:hover {
+            background: #2a9d8f;
+            color: white;
+        }
+
+        .signup {
+            background: #2a9d8f;
+            color: white;
+        }
+
+        .signup:hover {
+            background: #21867a;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80'));
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 5%;
+            text-align: center;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Search Box */
+        .search-box {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .search-tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            position: relative;
+        }
+
+        .tab.active {
+            color: #2a9d8f;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #2a9d8f;
+        }
+
+        .search-forms {
+            position: relative;
+            min-height: 200px;
+        }
+
+        .search-form {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .search-form.active {
+            display: grid;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .search-btn {
+            grid-column: 1 / -1;
+            background: #2a9d8f;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #21867a;
+        }
+
+        /* Destinations Section */
+        .destinations {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .destinations h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: #2a9d8f;
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .destination-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .destination-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .destination-info {
+            padding: 1.5rem;
+        }
+
+        .destination-info h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .destination-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .destination-price {
+            font-weight: 700;
+            color: #2a9d8f;
+            font-size: 1.2rem;
+        }
+
+        .book-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: #2a9d8f;
+            color: white;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .book-btn:hover {
+            background: #21867a;
+        }
+
+        /* Deals Section */
+        .deals {
+            padding: 5rem 5%;
+            background: #f9f9f9;
+        }
+
+        .deals h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: #2a9d8f;
+        }
+
+        .deals-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .deal-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            transition: transform 0.3s;
+        }
+
+        .deal-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .deal-img {
+            width: 40%;
+            object-fit: cover;
+        }
+
+        .deal-info {
+            padding: 1.5rem;
+            width: 60%;
+        }
+
+        .deal-info h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .deal-location {
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .deal-price {
+            font-weight: 700;
+            color: #2a9d8f;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .deal-old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .deal-discount {
+            background: #e63946;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .deal-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: #2a9d8f;
+            color: white;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .deal-btn:hover {
+            background: #21867a;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .testimonials h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: #2a9d8f;
+        }
+
+        .testimonials-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .quote {
+            font-style: italic;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .quote::before {
+            content: '"';
+            font-size: 3rem;
+            color: #2a9d8f;
+            opacity: 0.2;
+            position: absolute;
+            top: -1rem;
+            left: -1rem;
+        }
+
+        .author {
+            font-weight: 500;
+            color: #2a9d8f;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 5rem 5%;
+            background: #f9f9f9;
+        }
+
+        .contact h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: #2a9d8f;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #2a9d8f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #21867a;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 3rem 5% 1rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #2a9d8f;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a:hover {
+            color: #2a9d8f;
+        }
+
+        .footer-section p {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid #444;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .destination-card,
+            .deal-card {
+                grid-column: 1 / -1;
+            }
+
+            .deal-card {
+                flex-direction: column;
+            }
+
+            .deal-img,
+            .deal-info {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">TravelEase</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#deals">Deals</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="login">Login</button>
+                <button class="signup">Sign Up</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>Discover Your Perfect Getaway</h1>
+                <p>Book flights, hotels, and packages to the world's most amazing destinations</p>
+                
+                <div class="search-box">
+                    <div class="search-tabs">
+                        <button class="tab active" data-tab="flights">Flights</button>
+                        <button class="tab" data-tab="hotels">Hotels</button>
+                        <button class="tab" data-tab="packages">Packages</button>
+                    </div>
+                    
+                    <div class="search-forms">
+                        <!-- Flight Search Form -->
+                        <form id="flight-form" class="search-form active">
+                            <div class="form-group">
+                                <label for="flight-from"><i class="fas fa-plane-departure"></i> From</label>
+                                <input type="text" id="flight-from" placeholder="City or Airport">
+                            </div>
+                            <div class="form-group">
+                                <label for="flight-to"><i class="fas fa-plane-arrival"></i> To</label>
+                                <input type="text" id="flight-to" placeholder="City or Airport">
+                            </div>
+                            <div class="form-group">
+                                <label for="flight-depart"><i class="far fa-calendar-alt"></i> Depart</label>
+                                <input type="date" id="flight-depart">
+                            </div>
+                            <div class="form-group">
+                                <label for="flight-return"><i class="far fa-calendar-alt"></i> Return</label>
+                                <input type="date" id="flight-return">
+                            </div>
+                            <div class="form-group">
+                                <label for="flight-passengers"><i class="fas fa-users"></i> Passengers</label>
+                                <select id="flight-passengers">
+                                    <option value="1">1 Adult</option>
+                                    <option value="2">2 Adults</option>
+                                    <option value="3">3 Adults</option>
+                                    <option value="4">4 Adults</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="search-btn">Search Flights</button>
+                        </form>
+                        
+                        <!-- Hotel Search Form -->
+                        <form id="hotel-form" class="search-form">
+                            <div class="form-group">
+                                <label for="hotel-destination"><i class="fas fa-map-marker-alt"></i> Destination</label>
+                                <input type="text" id="hotel-destination" placeholder="City or Hotel">
+                            </div>
+                            <div class="form-group">
+                                <label for="hotel-checkin"><i class="far fa-calendar-alt"></i> Check-in</label>
+                                <input type="date" id="hotel-checkin">
+                            </div>
+                            <div class="form-group">
+                                <label for="hotel-checkout"><i class="far fa-calendar-alt"></i> Check-out</label>
+                                <input type="date" id="hotel-checkout">
+                            </div>
+                            <div class="form-group">
+                                <label for="hotel-guests"><i class="fas fa-users"></i> Guests</label>
+                                <select id="hotel-guests">
+                                    <option value="1">1 Guest</option>
+                                    <option value="2">2 Guests</option>
+                                    <option value="3">3 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="search-btn">Search Hotels</button>
+                        </form>
+                        
+                        <!-- Package Search Form -->
+                        <form id="package-form" class="search-form">
+                            <div class="form-group">
+                                <label for="package-destination"><i class="fas fa-map-marker-alt"></i> Destination</label>
+                                <input type="text" id="package-destination" placeholder="Where to?">
+                            </div>
+                            <div class="form-group">
+                                <label for="package-depart"><i class="far fa-calendar-alt"></i> Departure</label>
+                                <input type="date" id="package-depart">
+                            </div>
+                            <div class="form-group">
+                                <label for="package-duration"><i class="far fa-clock"></i> Duration</label>
+                                <select id="package-duration">
+                                    <option value="3">3-5 Days</option>
+                                    <option value="7">7 Days</option>
+                                    <option value="10">10 Days</option>
+                                    <option value="14">14 Days</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="package-travelers"><i class="fas fa-users"></i> Travelers</label>
+                                <select id="package-travelers">
+                                    <option value="1">1 Traveler</option>
+                                    <option value="2">2 Travelers</option>
+                                    <option value="4">4 Travelers</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="search-btn">Search Packages</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="destinations" id="destinations">
+            <h2>Popular Destinations</h2>
+            <div class="destinations-grid" id="destinations-container">
+                <!-- Destinations will be loaded from JavaScript -->
+            </div>
+        </section>
+
+        <section class="deals" id="deals">
+            <h2>Hot Deals</h2>
+            <div class="deals-container" id="deals-container">
+                <!-- Deals will be loaded from JavaScript -->
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h2>What Our Travelers Say</h2>
+            <div class="testimonials-container">
+                <div class="testimonial">
+                    <div class="quote">"The booking process was so easy and our vacation was perfect!"</div>
+                    <div class="author">- Sarah Johnson</div>
+                </div>
+                <div class="testimonial">
+                    <div class="quote">"Best prices I've found online. Will definitely use again."</div>
+                    <div class="author">- Michael Chen</div>
+                </div>
+                <div class="testimonial">
+                    <div class="quote">"Customer service helped me when my flight was delayed. 10/10!"</div>
+                    <div class="author">- David Martinez</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <h2>Contact Us</h2>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>TravelEase</h3>
+                <p>Making travel planning simple and affordable since 2023.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#destinations">Destinations</a></li>
+                    <li><a href="#deals">Deals</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> info@travelease.com</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 TravelEase. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample travel data
+        const destinations = [
+            {
+                id: 1,
+                name: "Bali, Indonesia",
+                description: "Tropical paradise with beautiful beaches and rich culture",
+                price: "$899",
+                image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 2,
+                name: "Paris, France",
+                description: "The city of love with iconic landmarks and cuisine",
+                price: "$1,299",
+                image: "https://images.unsplash.com/photo-1431274172761-fca41d930114?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 3,
+                name: "Tokyo, Japan",
+                description: "Vibrant metropolis blending tradition and modernity",
+                price: "$1,599",
+                image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 4,
+                name: "New York City, USA",
+                description: "The city that never sleeps with endless attractions",
+                price: "$1,099",
+                image: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 5,
+                name: "Rome, Italy",
+                description: "Ancient history meets modern Italian lifestyle",
+                price: "$1,199",
+                image: "https://images.unsplash.com/photo-1529260830199-42c24126f198?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 6,
+                name: "Cape Town, South Africa",
+                description: "Stunning landscapes and diverse wildlife",
+                price: "$1,499",
+                image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        const deals = [
+            {
+                id: 1,
+                name: "Maldives Luxury Escape",
+                location: "Maldives",
+                price: "$2,499",
+                oldPrice: "$3,200",
+                discount: "22% OFF",
+                description: "5 nights in overwater bungalow with all-inclusive",
+                image: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 2,
+                name: "European Adventure",
+                location: "Multiple Cities",
+                price: "$1,799",
+                oldPrice: "$2,400",
+                discount: "25% OFF",
+                description: "10-day tour through Paris, Rome, and Barcelona",
+                image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 3,
+                name: "Thai Island Hopping",
+                location: "Thailand",
+                price: "$1,299",
+                oldPrice: "$1,800",
+                discount: "28% OFF",
+                description: "7-day island tour including Phi Phi and Phuket",
+                image: "https://images.unsplash.com/photo-1527631746610-bca00a040d60?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        // DOM Elements
+        const tabs = document.querySelectorAll('.tab');
+        const searchForms = document.querySelectorAll('.search-form');
+        const destinationsContainer = document.getElementById('destinations-container');
+        const dealsContainer = document.getElementById('deals-container');
+
+        // Tab switching functionality
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and forms
+                tabs.forEach(t => t.classList.remove('active'));
+                searchForms.forEach(form => form.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding form
+                tab.classList.add('active');
+                const formId = tab.getAttribute('data-tab') + '-form';
+                document.getElementById(formId).classList.add('active');
+            });
+        });
+
+        // Load destinations
+        function loadDestinations() {
+            destinationsContainer.innerHTML = destinations.map(destination => `
+                <div class="destination-card">
+                    <img src="${destination.image}" alt="${destination.name}" class="destination-img">
+                    <div class="destination-info">
+                        <h3>${destination.name}</h3>
+                        <p>${destination.description}</p>
+                        <div class="destination-price">From ${destination.price}</div>
+                        <a href="#" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load deals
+        function loadDeals() {
+            dealsContainer.innerHTML = deals.map(deal => `
+                <div class="deal-card">
+                    <img src="${deal.image}" alt="${deal.name}" class="deal-img">
+                    <div class="deal-info">
+                        <h3>${deal.name}</h3>
+                        <p class="deal-location"><i class="fas fa-map-marker-alt"></i> ${deal.location}</p>
+                        <div>
+                            <span class="deal-price">${deal.price}</span>
+                            <span class="deal-old-price">${deal.oldPrice}</span>
+                            <span class="deal-discount">${deal.discount}</span>
+                        </div>
+                        <p>${deal.description}</p>
+                        <a href="#" class="deal-btn">View Deal</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Form submission handlers
+        document.getElementById('flight-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Flight search functionality would be implemented here!');
+        });
+
+        document.getElementById('hotel-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Hotel search functionality would be implemented here!');
+        });
+
+        document.getElementById('package-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Package search functionality would be implemented here!');
+        });
+
+        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! We will contact you soon.');
+            e.target.reset();
+        });
+
+        // Login/Signup button handlers
+        document.querySelector('.login').addEventListener('click', () => {
+            alert('Login modal would appear here');
+        });
+
+        document.querySelector('.signup').addEventListener('click', () => {
+            alert('Signup modal would appear here');
+        });
+
+        // Initialize the page
+        window.addEventListener('DOMContentLoaded', () => {
+            loadDestinations();
+            loadDeals();
+        });
+    </script>
+</body>
+</html>
